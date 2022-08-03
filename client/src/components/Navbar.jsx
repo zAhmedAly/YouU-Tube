@@ -43,7 +43,6 @@ const Input = styled.input`
   background-color: transparent;
   outline: none;
   color: ${({ theme }) => theme.text};
-
 `;
 
 const Button = styled.button`
@@ -75,7 +74,7 @@ const Avatar = styled.img`
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const { currentUser } = useSelector((state) => state.user);
@@ -88,11 +87,17 @@ const Navbar = () => {
               placeholder="Search"
               onChange={(e) => setQ(e.target.value)}
             />
-            <SearchOutlinedIcon onClick={()=>navigate(`/search?q=${q}`)}/>
+            <SearchOutlinedIcon
+              onClick={() => navigate(`/search?q=${q}`)}
+              style={{ cursor: "pointer" }}
+            />
           </Search>
           {currentUser ? (
             <User>
-              <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
+              <VideoCallOutlinedIcon
+                onClick={() => setOpen(true)}
+                style={{ cursor: "pointer" }}
+              />
               <Avatar src={currentUser.img} />
               {currentUser.name}
             </User>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Card from "./Card";
 
 const Container = styled.div`
-  flex: 2;
+  flex: 2.5;
 `;
 
 const Recommendation = ({ tags }) => {

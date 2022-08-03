@@ -19,12 +19,19 @@ const Main = styled.div`
   background-color: ${({ theme }) => theme.bg};
 `;
 const Wrapper = styled.div`
-  padding: 22px 48px;
+  padding: 22px 32px;
+`;
+
+const Loading = styled.h2`
+  dispaly: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.text};
 `;
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser , loading } = useSelector((state) => state.user);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -33,6 +40,7 @@ function App() {
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
           <Main>
             <Navbar />
+            {loading && <Loading> Loading ... </Loading>}
             <Wrapper>
               <Routes>
                 <Route path="/">
