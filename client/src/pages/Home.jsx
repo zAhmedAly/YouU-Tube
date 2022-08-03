@@ -29,7 +29,7 @@ const Home = ({ type }) => {
 
   return (
     <Container>
-      {loading && <Loading> Loading ... ! </Loading>}
+      {/* {loading && <Loading> Loading ... ! </Loading>} */}
       {videos.map((video) => (
         <Card key={video._id} video={video} />
       ))}

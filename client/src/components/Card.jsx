@@ -40,7 +40,6 @@ const Texts = styled.div``;
 const Title = styled.h1`
   font-size: 14px;
   font-weight: 400;
-
   color: ${({ theme }) => theme.text};
 `;
 
