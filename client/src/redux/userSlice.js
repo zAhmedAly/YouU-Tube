@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
   currentUser: null,
   loading: false,
   error: false,
+  cookie: null,
 };
 
 export const userSlice = createSlice({
@@ -16,6 +18,7 @@ export const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.currentUser = action.payload;
+      state.cookie = Cookies.get("access_token");
     },
     loginFailure: (state) => {
       state.loading = false;
@@ -25,6 +28,7 @@ export const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = false;
+      state.cookie = null;
     },
     subscription: (state, action) => {
       if (state.currentUser.subscribedUsers.includes(action.payload)) {

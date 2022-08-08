@@ -9,7 +9,7 @@ import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
 import { useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
+import Cookies from "js-cookie";
 
 const Container = styled.div`
   display: flex;
@@ -32,17 +32,17 @@ const Loading = styled.h2`
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [cookies, setCookie] = useCookies();
-  const { currentUser, loading } = useSelector((state) => state.user);
+  const { currentUser, loading, cookie } = useSelector((state) => state.user);
 
-  console.log("document.cookie =", ` ${document.cookies}`);
+  console.log("document.cookie =", Cookies.get("access_toekn"));
+  console.log("Cookie = ", cookie);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <h1>React cookies</h1>
+      <hr />
+      COOKIE {cookie && <p> {cookie}</p>}
       <Container>
-        <h1>React cookies</h1>
-
-        {cookies && <p> {cookies}</p>}
         <BrowserRouter>
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
           <Main>
@@ -57,7 +57,7 @@ function App() {
                   <Route path="search" element={<Search />} />
                   <Route
                     path="signin"
-                    element={currentUser ? <Home /> : <SignIn />}
+                    element={cookie ? <Home /> : <SignIn />}
                   />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
