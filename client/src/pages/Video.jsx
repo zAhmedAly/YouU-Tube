@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import axiosInstance from "../config";
 import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import { format } from "timeago.js";
-import { subscription } from "../redux/userSlice";
+import { subscription, watchHistory } from "../redux/userSlice";
 import Recommendation from "../components/Recommendation";
 
 const Container = styled.div`
@@ -139,11 +139,13 @@ const Video = () => {
         const channelRes = await axiosInstance.get(
           `/users/find/${videoRes.data.userId}`
         );
+        await axiosInstance.put(`/users/history/${videoRes.data._id}`);
 
         setChannel(channelRes.data);
         setVideo(videoRes.data);
         setInterval(() => {
           dispatch(fetchSuccess(videoRes.data));
+          dispatch(watchHistory(videoRes.data._id));
         }, 5000);
       } catch (err) {}
     };

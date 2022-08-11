@@ -124,3 +124,14 @@ export const search = async (req, res, next) => {
     next(err);
   }
 };
+
+export const channel = async (req, res, next) => {
+  try {
+    const videos = await Video.find({ userId: req.params.id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};

@@ -42,10 +42,19 @@ export const userSlice = createSlice({
         state.currentUser.subscribedUsers.push(action.payload);
       }
     },
+    watchHistory: (state, action) => {
+      state.currentUser.watchHistory.push(action.payload);
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, subscription } =
-  userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+  subscription,
+  watchHistory,
+} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -80,6 +80,7 @@ const SignIn = () => {
     dispatch(loginStart());
     try {
       const res = await axiosInstance.post("/auth/signin", { name, password });
+      console.log("LogIn Res = ", res);
       dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (err) {

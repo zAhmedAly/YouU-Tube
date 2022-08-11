@@ -6,10 +6,10 @@ import { format } from "timeago.js";
 
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "280px"};
-  margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "20px")};
+  margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "15px")};
   cursor: pointer;
   display: ${(props) => props.type === "sm" && "flex"};
-  gap: 10px;
+  gap: 15px;
   // border: 2px solid white;
 `;
 
@@ -70,7 +70,12 @@ const Card = ({ type, video }) => {
       <Container type={type}>
         <Image type={type} src={video.imgUrl} />
         <Details type={type}>
-          <ChannelImage type={type} src={channel.img} />
+          <Link
+            to={`/channel/${video.userId}`}
+            style={{ textDecoration: "none" }}
+          >
+            <ChannelImage type={type} src={channel.img} />
+          </Link>
           <Texts>
             <Title>{video.title}</Title>
             <ChannelName>{channel.name}</ChannelName>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Card from "../components/Card";
 import axiosInstance from "../config";
@@ -16,16 +17,17 @@ const Loading = styled.h2`
   color: ${({ theme }) => theme.text};
 `;
 
-const Home = ({ type }) => {
+const Channel = () => {
   const [videos, setVideos] = useState([]);
+  const path = useLocation().pathname.split("/")[2];
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axiosInstance.get(`/videos/${type}`);
+      const res = await axiosInstance.get(`/videos/${path}`);
       setVideos(res.data);
     };
     fetchVideos();
-  }, [type]);
+  }, [path]);
 
   return (
     <Container>
@@ -37,4 +39,4 @@ const Home = ({ type }) => {
   );
 };
 
-export default Home;
+export default Channel;

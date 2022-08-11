@@ -10,6 +10,7 @@ import {
   sub,
   trend,
   updateVideo,
+  channel,
 } from "../controllers/video.js";
 import { verifyToken } from "../verifyToken.js";
 
@@ -26,5 +27,6 @@ router.get("/random", random);
 router.get("/sub", verifyToken, sub);
 router.get("/tags", getByTag);
 router.get("/search", search);
+router.get("/:id", channel);
 
 export default router;

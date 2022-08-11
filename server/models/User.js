@@ -29,6 +29,12 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    watchHistory: {
+      type: [String],
+    },
+    watchLater: {
+      type: [String],
+    },
   },
   { timestamps: true }
 );
