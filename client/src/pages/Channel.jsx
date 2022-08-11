@@ -10,24 +10,25 @@ const Container = styled.div`
   gap: 30px;
 `;
 
-const Loading = styled.h2`
-  dispaly: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.text};
-`;
+// const Loading = styled.h2`
+//   dispaly: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: ${({ theme }) => theme.text};
+// `;
 
 const Channel = () => {
   const [videos, setVideos] = useState([]);
   const path = useLocation().pathname.split("/")[2];
 
+  const fetchVideos = async () => {
+    const res = await axiosInstance.get(`/videos/${path}`);
+    setVideos(res.data);
+  };
   useEffect(() => {
-    const fetchVideos = async () => {
-      const res = await axiosInstance.get(`/videos/${path}`);
-      setVideos(res.data);
-    };
     fetchVideos();
-  }, [path]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Container>

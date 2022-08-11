@@ -103,7 +103,7 @@ export const dislike = async (req, res, next) => {
   }
 };
 
-export const history = async (req, res, next) => {
+export const addToWatchHistory = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.user.id, {
       $push: { watchHistory: req.params.id },

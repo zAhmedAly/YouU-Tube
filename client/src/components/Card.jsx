@@ -63,19 +63,22 @@ const Card = ({ type, video }) => {
       setChannel(res.data);
     };
     fetchChannel();
+    // eslint-disable-next-line
   }, [video.userId]);
 
   return (
-    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
-      <Container type={type}>
+    <Container type={type}>
+      <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
         <Image type={type} src={video.imgUrl} />
-        <Details type={type}>
-          <Link
-            to={`/channel/${video.userId}`}
-            style={{ textDecoration: "none" }}
-          >
-            <ChannelImage type={type} src={channel.img} />
-          </Link>
+      </Link>
+      <Details type={type}>
+        <Link
+          to={`/channel/${video.userId}`}
+          style={{ textDecoration: "none" }}
+        >
+          <ChannelImage type={type} src={channel.img} />
+        </Link>
+        <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
           <Texts>
             <Title>{video.title}</Title>
             <ChannelName>{channel.name}</ChannelName>
@@ -83,9 +86,9 @@ const Card = ({ type, video }) => {
               {video.views} views • {format(video.createdAt)}
             </Info>
           </Texts>
-        </Details>
-      </Container>
-    </Link>
+        </Link>
+      </Details>
+    </Container>
   );
 };
 

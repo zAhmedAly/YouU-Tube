@@ -7,7 +7,7 @@ import {
   unsubscribe,
   like,
   dislike,
-  history,
+  addToWatchHistory,
 } from "../controllers/user.js";
 import { verifyToken } from "../verifyToken.js";
 
@@ -35,6 +35,6 @@ router.put("/like/:videoId", verifyToken, like);
 router.put("/dislike/:videoId", verifyToken, dislike);
 
 //add video to watch history
-router.put("/history/:id", verifyToken, history);
+router.put("/history/:id", verifyToken, addToWatchHistory);
 
 export default router;

@@ -143,14 +143,15 @@ const Video = () => {
 
         setChannel(channelRes.data);
         setVideo(videoRes.data);
-        setInterval(() => {
-          dispatch(fetchSuccess(videoRes.data));
-          dispatch(watchHistory(videoRes.data._id));
-        }, 5000);
+        console.log("inside Video fetchData");
+
+        dispatch(fetchSuccess(videoRes.data));
+        dispatch(watchHistory(videoRes.data._id));
       } catch (err) {}
     };
     fetchData();
-  }, [path, dispatch]);
+    // eslint-disable-next-line
+  }, [path]);
 
   const handleLike = async () => {
     await axiosInstance.put(`/users/like/${currentVideo._id}`);

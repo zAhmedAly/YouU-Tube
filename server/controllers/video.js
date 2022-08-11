@@ -91,13 +91,15 @@ export const sub = async (req, res, next) => {
     const user = await User.findById(req.user.id);
     const subscribedChannels = user.subscribedUsers;
 
-    const list = await Promise.all(
+    const videoList = await Promise.all(
       subscribedChannels.map(async (channelId) => {
         return await Video.find({ userId: channelId });
       })
     );
 
-    res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
+    res
+      .status(200)
+      .json(videoList.flat().sort((a, b) => b.createdAt - a.createdAt));
   } catch (err) {
     next(err);
   }
@@ -131,6 +133,23 @@ export const channel = async (req, res, next) => {
       createdAt: -1,
     });
     res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const history = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const watchHistoryVideos = user.watchHistory;
+    console.log("watchHistoryVideos = ", watchHistoryVideos);
+    const videoList = await Promise.all(
+      watchHistoryVideos.map(async (videoId) => {
+        return await Video.findById(videoId);
+      })
+    );
+
+    res.status(200).json(videoList.flat().reverse());
   } catch (err) {
     next(err);
   }
