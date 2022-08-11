@@ -50,7 +50,10 @@ export const deleteVideo = async (req, res, next) => {
 
 export const getVideo = async (req, res, next) => {
   try {
-    const video = await Video.findById(req.params.id);
+    const video = await Video.findById(req.params.id).populate(
+      "user",
+      "_id img name"
+    );
     res.status(200).json(video);
   } catch (err) {
     next(err);
@@ -93,7 +96,10 @@ export const sub = async (req, res, next) => {
 
     const videoList = await Promise.all(
       subscribedChannels.map(async (channelId) => {
-        return await Video.find({ userId: channelId });
+        return await Video.find({ userId: channelId }).populate(
+          "user",
+          "_id img name"
+        );
       })
     );
 
