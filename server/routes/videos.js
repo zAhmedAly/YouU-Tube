@@ -12,11 +12,13 @@ import {
   updateVideo,
   channel,
   history,
+  fix,
 } from "../controllers/video.js";
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
+router.put("/fix", fix);
 router.post("/", verifyToken, addVideo);
 router.put("/:id", verifyToken, updateVideo);
 router.delete("/:id", verifyToken, deleteVideo);

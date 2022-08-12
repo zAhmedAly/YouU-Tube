@@ -3,7 +3,11 @@ import Video from "../models/Video.js";
 import { createError } from "../error.js";
 
 export const addVideo = async (req, res, next) => {
-  const newVideo = new Video({ userId: req.user.id, ...req.body });
+  const newVideo = new Video({
+    userId: req.user.id,
+    user: req.user.id,
+    ...req.body,
+  });
   try {
     const savedVideo = await newVideo.save();
     res.status(200).json(savedVideo);
@@ -74,7 +78,14 @@ export const addView = async (req, res, next) => {
 export const random = async (req, res, next) => {
   try {
     const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
-    res.status(200).json(videos);
+
+    const videoList = await Promise.all(
+      videos.map(async (videoId) => {
+        return await Video.findById(videoId).populate("user", "_id img name");
+      })
+    );
+
+    res.status(200).json(videoList);
   } catch (err) {
     next(err);
   }
@@ -83,7 +94,13 @@ export const random = async (req, res, next) => {
 export const trend = async (req, res, next) => {
   try {
     const videos = await Video.find().sort({ views: -1 });
-    res.status(200).json(videos);
+    const videoList = await Promise.all(
+      videos.map(async (videoId) => {
+        return await Video.findById(videoId).populate("user", "_id img name");
+      })
+    );
+
+    res.status(200).json(videoList);
   } catch (err) {
     next(err);
   }
@@ -115,7 +132,13 @@ export const getByTag = async (req, res, next) => {
   const tags = req.query.tags.split(",");
   try {
     const videos = await Video.find({ tags: { $in: tags } }).limit(20);
-    res.status(200).json(videos);
+    const videoList = await Promise.all(
+      videos.map(async (videoId) => {
+        return await Video.findById(videoId).populate("user", "_id img name");
+      })
+    );
+
+    res.status(200).json(videoList);
   } catch (err) {
     next(err);
   }
@@ -127,7 +150,13 @@ export const search = async (req, res, next) => {
     const videos = await Video.find({
       title: { $regex: query, $options: "i" },
     }).limit(40);
-    res.status(200).json(videos);
+    const videoList = await Promise.all(
+      videos.map(async (videoId) => {
+        return await Video.findById(videoId).populate("user", "_id img name");
+      })
+    );
+
+    res.status(200).json(videoList);
   } catch (err) {
     next(err);
   }
@@ -138,7 +167,13 @@ export const channel = async (req, res, next) => {
     const videos = await Video.find({ userId: req.params.id }).sort({
       createdAt: -1,
     });
-    res.status(200).json(videos);
+    const videoList = await Promise.all(
+      videos.map(async (videoId) => {
+        return await Video.findById(videoId).populate("user", "_id img name");
+      })
+    );
+
+    res.status(200).json(videoList);
   } catch (err) {
     next(err);
   }
@@ -151,11 +186,28 @@ export const history = async (req, res, next) => {
     console.log("watchHistoryVideos = ", watchHistoryVideos);
     const videoList = await Promise.all(
       watchHistoryVideos.map(async (videoId) => {
-        return await Video.findById(videoId);
+        return await Video.findById(videoId).populate("user", "_id img name");
       })
     );
 
     res.status(200).json(videoList.flat().reverse());
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const fix = async (req, res, next) => {
+  console.log("inside fix");
+  try {
+    const videoList = await Video.updateMany({}, [
+      {
+        $set: {
+          user: $userId,
+        },
+      },
+    ]);
+    console.log("videoList = ", videoList);
+    res.status(200).json(videoList);
   } catch (err) {
     next(err);
   }
