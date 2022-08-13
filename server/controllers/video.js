@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Video from "../models/Video.js";
 import { createError } from "../error.js";
+import mongoose from "mongoose";
 
 export const addVideo = async (req, res, next) => {
   const newVideo = new Video({
@@ -200,10 +201,9 @@ export const fix = async (req, res, next) => {
   console.log("inside fix");
   try {
     const videoList = await Video.updateMany({}, [
+      { $unset: ["user"] },
       {
-        $set: {
-          user: $userId,
-        },
+        $set: { user: { $toObjectId: "$userId" } },
       },
     ]);
     console.log("videoList = ", videoList);

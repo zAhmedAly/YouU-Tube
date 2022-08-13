@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -74,6 +74,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const path = useLocation().pathname.split("/")[2];
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -82,7 +83,7 @@ const SignIn = () => {
       const res = await axiosInstance.post("/auth/signin", { name, password });
       console.log("LogIn Res = ", res);
       dispatch(loginSuccess(res.data));
-      navigate("/");
+      navigate({ path });
     } catch (err) {
       dispatch(loginFailure());
     }

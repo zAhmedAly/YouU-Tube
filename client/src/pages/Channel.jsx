@@ -26,7 +26,14 @@ const Channel = () => {
     setVideos(res.data);
   };
   useEffect(() => {
-    fetchVideos();
+    let isDone = false;
+    if (!isDone) {
+      fetchVideos();
+    }
+    return () => {
+      console.log("Channel Fetch is done");
+      isDone = true;
+    };
     // eslint-disable-next-line
   }, []);
 
