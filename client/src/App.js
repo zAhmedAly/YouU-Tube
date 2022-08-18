@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
 import { useSelector } from "react-redux";
 import Channel from "./pages/Channel";
+import PrivateRoutes from "./routing/PrivateRoute";
 
 const Container = styled.div`
   display: flex;
@@ -50,18 +51,18 @@ function App() {
                 <Route path="/">
                   <Route index element={<Home type="random" />} />
                   <Route path="trends" element={<Home type="trend" />} />
-                  <Route
-                    path="subscriptions"
-                    element={currentUser ? <Home type="sub" /> : <SignIn />}
-                  />
-                  <Route
+                  <Route element={<PrivateRoutes />}>
+                    <Route path="history" element={<Home type="history" />} />
+                    <Route path="subscriptions" element={<Home type="sub" />} />
+                  </Route>
+                  {/* <Route
                     path="history"
                     element={currentUser ? <Home type="history" /> : <SignIn />}
-                  />
+                  /> */}
 
                   <Route path="search" element={<Search />} />
                   <Route
-                    path="signin"
+                    path="/signin"
                     element={currentUser ? <Home /> : <SignIn />}
                   />
                   <Route path="video">
