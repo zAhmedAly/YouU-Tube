@@ -1,6 +1,6 @@
 import axiosInstance from "../config";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
@@ -72,18 +72,26 @@ const SignIn = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const path = useLocation().pathname.split("/")[2];
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     navigate(from, { replace: true });
+  //   }
+  //   // eslint-disable-next-line
+  // }, [currentUser, from, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginStart());
     try {
       const res = await axiosInstance.post("/auth/signin", { name, password });
-      console.log("LogIn Res = ", res);
       dispatch(loginSuccess(res.data));
-      navigate({ path });
+      navigate(from, { replace: true });
     } catch (err) {
       dispatch(loginFailure());
     }
@@ -130,7 +138,7 @@ const SignIn = () => {
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
-        <SubTitle>to continue to LamaTube</SubTitle>
+        <SubTitle>to continue to YouU-Tube</SubTitle>
         <Input
           placeholder="username"
           onChange={(e) => setName(e.target.value)}

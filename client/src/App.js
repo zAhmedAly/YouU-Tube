@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
-import { useSelector } from "react-redux";
 import Channel from "./pages/Channel";
 import PrivateRoutes from "./routing/PrivateRoute";
 
@@ -24,16 +23,16 @@ const Wrapper = styled.div`
   padding: 22px 32px;
 `;
 
-const Loading = styled.h2`
-  dispaly: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.text};
-`;
+// const Loading = styled.h2`
+//   dispaly: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: ${({ theme }) => theme.text};
+// `;
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const { currentUser, loading } = useSelector((state) => state.user);
+  // const { currentUser, loading } = useSelector((state) => state.user);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -45,7 +44,7 @@ function App() {
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
           <Main>
             <Navbar />
-            {loading && <Loading> Loading ... </Loading>}
+            {/* {loading && <Loading> Loading ... </Loading>} */}
             <Wrapper>
               <Routes>
                 <Route path="/">
@@ -55,16 +54,9 @@ function App() {
                     <Route path="history" element={<Home type="history" />} />
                     <Route path="subscriptions" element={<Home type="sub" />} />
                   </Route>
-                  {/* <Route
-                    path="history"
-                    element={currentUser ? <Home type="history" /> : <SignIn />}
-                  /> */}
 
                   <Route path="search" element={<Search />} />
-                  <Route
-                    path="/signin"
-                    element={currentUser ? <Home /> : <SignIn />}
-                  />
+                  <Route path="/signin" element={<SignIn />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
                   </Route>

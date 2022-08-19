@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/Card";
 import axiosInstance from "../config";
+import { useNavigate, useLocation } from "react-router-dom";
 const Container = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -20,18 +21,24 @@ const Container = styled.div`
 
 const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
-  const { loading } = useSelector((state) => state.video);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axiosInstance.get(`/videos/${type}`);
-      setVideos(res.data);
+      try {
+        const res = await axiosInstance.get(`/videos/${type}`);
+        setVideos(res.data);
+      } catch (error) {
+        navigate("/signin", { state: { from: location }, replace: true });
+      }
     };
 
     fetchVideos();
 
-    // eslint-disable-next-line
     return setVideos([]);
+    // eslint-disable-next-line
   }, [type]);
 
   return (
