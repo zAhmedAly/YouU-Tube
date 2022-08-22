@@ -91,6 +91,7 @@ const SignIn = () => {
     try {
       const res = await axiosInstance.post("/auth/signin", { name, password });
       dispatch(loginSuccess(res.data));
+      console.log("SingIn location = ", location);
       navigate(from, { replace: true });
     } catch (err) {
       dispatch(loginFailure());
